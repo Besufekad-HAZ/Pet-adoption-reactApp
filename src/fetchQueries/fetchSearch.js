@@ -6,10 +6,13 @@ async function fetchSearch({ queryKey }) {
   );
 
   if (!res.ok) {
-    throw new Error(`Error: ${animal} , ${location}, ${breed}`);
+    const errorData = await res.json();
+    throw new Error(
+      `Error: ${errorData.message} - ${animal}, ${location}, ${breed}`
+    );
   }
 
   return res.json();
-} 
+}
 
 export default fetchSearch;

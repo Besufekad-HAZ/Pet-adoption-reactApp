@@ -1,41 +1,36 @@
-import { Component } from "react";
+import React, { useState } from "react";
+import PropTypes from "prop-types";
 
-class Carousel extends Component {
-  state = {
-    active: 0,
+const Carousel = ({
+  images = ["http://pets-images.dev-apis.com/pets/none.jpg"],
+}) => {
+  const [active, setActive] = useState(0);
+
+  const handleIndexClick = (e) => {
+    setActive(+e.target.dataset.index);
   };
 
-  static defaultProps = {
-    images: ["http://pets-images.dev-apis.com/pets/none.jpg"],
-  };
-
-  handleIndexClick = (e) => {
-    this.setState({
-      active: +e.target.dataset.index,
-    });
-  };
-  render() {
-    const { active } = this.state;
-    const { images } = this.props;
-    return (
-      <div className="carousel">
-        <img src={images[active]} alt="animal" />
-        <div className="carousel-smaller">
-          {images.map((photo, index) => (
-            // eslint-disable-next-line
-            <img
-              key={photo}
-              data-index={index}
-              onClick={this.handleIndexClick}
-              src={photo}
-              className={index === active ? "active" : ""}
-              alt="animal thumbnail"
-            />
-          ))}
-        </div>
+  return (
+    <div className="carousel">
+      <img src={images[active]} alt="animal" />
+      <div className="carousel-smaller">
+        {images.map((photo, index) => (
+          <img
+            key={photo}
+            data-index={index}
+            onClick={handleIndexClick}
+            src={photo}
+            className={index === active ? "active" : ""}
+            alt="animal thumbnail"
+          />
+        ))}
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
+
+Carousel.propTypes = {
+  images: PropTypes.arrayOf(PropTypes.string),
+};
 
 export default Carousel;

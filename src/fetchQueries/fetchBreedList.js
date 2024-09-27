@@ -1,9 +1,10 @@
 const fetchBreedList = async ({ queryKey }) => {
   const animal = queryKey[1];
 
-  if(!animal) {
+  if (!animal) {
     return [];
   }
+
   const apiRes = await fetch(
     `http://pets-v2.dev-apis.com/breeds?animal=${animal}`
   );
@@ -12,7 +13,8 @@ const fetchBreedList = async ({ queryKey }) => {
     throw new Error(`Error: breeds/${animal} fetch not ok`);
   }
 
-  return apiRes.json();
+  const data = await apiRes.json();
+  return data;
 };
 
 export default fetchBreedList;

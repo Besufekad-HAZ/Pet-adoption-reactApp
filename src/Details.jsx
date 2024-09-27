@@ -5,9 +5,12 @@ import Carousel from "./Carousel";
 
 const Details = () => {
   const { id } = useParams();
-  const results = useQuery(["details", id], fetchPet);
+  const { data, isLoading, isError, error } = useQuery(
+    ["details", id],
+    fetchPet
+  );
 
-  if (results.isLoading) {
+  if (isLoading) {
     return (
       <div className="loading-pane">
         <h2 className="loader">🌀</h2>
@@ -15,7 +18,23 @@ const Details = () => {
     );
   }
 
-  const pet = results.data.pets[0];
+  if (isError) {
+    return (
+      <div className="error-pane">
+        <h2 className="error">Error: {error.message}</h2>
+      </div>
+    );
+  }
+
+  const pet = data?.pets?.[0];
+
+  if (!pet) {
+    return (
+      <div className="error-pane">
+        <h2 className="error">Pet not found</h2>
+      </div>
+    );
+  }
 
   return (
     <div className="details">

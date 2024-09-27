@@ -3,7 +3,8 @@ const fetchPet = async ({ queryKey }) => {
   const apiRes = await fetch(`http://pets-v2.dev-apis.com/pets?id=${id}`);
 
   if (!apiRes.ok) {
-    throw new Error(`Error: ${json.message} fetch not ok`);
+    const errorData = await apiRes.json();
+    throw new Error(`Error: ${errorData.message} fetch not ok`);
   }
 
   return apiRes.json();
