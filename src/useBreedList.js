@@ -1,9 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import fetchBreedList from "./fetchQueries/fetchBreedList";
 
-const localCache = {};
-
 export default function useBreedList(animal) {
-  const results = useQuery(["breeds", animal], fetchBreedList);
-  return [results?.data?.breeds ?? [], results?.status];
+  const { data, status } = useQuery(["breeds", animal], fetchBreedList);
+  return [data?.breeds ?? [], status];
 }
