@@ -37,3 +37,6 @@ The Pet Adoption React App is a web application designed to connect potential pe
 ```sh
  npm run dev
 ```
+
+
+4. Open your browser and navigate to http://localhost:3000 to see the application in action.
