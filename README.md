@@ -47,3 +47,11 @@ fetchQueries/: Contains functions for fetching data from the backend, such as fe
 useBreedList.js: Custom hook for fetching breed lists based on the selected animal.
 App.jsx: Main entry point for the React application.
 public/: Contains the main HTML file and other static assets.
+
+Contributing
+
+1. Contributions are welcome! Please follow these steps to contribute:
+2. Fork the repository.
+3. Create a new branch for your feature or bugfix.
+4. Commit your changes and push the branch to your fork.
+5. Create a pull request with a detailed description of your changes.
