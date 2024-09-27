@@ -19,13 +19,21 @@ The Pet Adoption React App is a web application designed to connect potential pe
 ## Setup and Installation
 
 1. Clone the repository:
+
    ```sh
    git clone https://github.com/yourusername/Pet-adoption-reactApp.git
    cd Pet-adoption-reactApp
 
+   ```
+
 2. Install dependencies:
 
-  ```sh
-   npm install
+```sh
+ npm install
+```
 
 3. Start the development server:
+
+```sh
+ npm run dev
+```
