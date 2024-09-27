@@ -38,5 +38,12 @@ The Pet Adoption React App is a web application designed to connect potential pe
  npm run dev
 ```
 
-
 4. Open your browser and navigate to http://localhost:3000 to see the application in action.
+
+Project Structure
+src/: Contains the source code for the application.
+components/: Contains React components like Pet, Results, Carousel, and SearchParams.
+fetchQueries/: Contains functions for fetching data from the backend, such as fetchPet, fetchBreedList, and fetchSearch.
+useBreedList.js: Custom hook for fetching breed lists based on the selected animal.
+App.jsx: Main entry point for the React application.
+public/: Contains the main HTML file and other static assets.
