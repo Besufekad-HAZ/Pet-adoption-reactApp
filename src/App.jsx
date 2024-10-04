@@ -1,9 +1,7 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom";
 import PropTypes from "prop-types";
 import Pet from "./Pet";
-
-const x = 5;
 
 const App = () => {
   return (
@@ -16,7 +14,7 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />, document.getElementById("root"));
+createRoot(document.getElementById("root")).render(<App />);
 
 Pet.propTypes = {
   name: PropTypes.string.isRequired,
