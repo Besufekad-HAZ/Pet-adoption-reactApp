@@ -20,6 +20,8 @@
     "@vitejs/plugin-react": "^4.3.2",
     "eslint": "^9.11.1",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-jsx-a11y": "^6.10.0",
     "eslint-plugin-react": "^7.37.1",
     "globals": "^15.10.0",
     "prettier": "^3.3.3",
