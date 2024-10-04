@@ -14,8 +14,8 @@ const App = () => {
 
 createRoot(document.getElementById("root")).render(<App />);
 
-Pet.propTypes = {
-  name: PropTypes.string.isRequired,
-  animal: PropTypes.string.isRequired,
-  breed: PropTypes.string.isRequired,
-};
+// Pet.propTypes = {
+//   name: PropTypes.string.isRequired,
+//   animal: PropTypes.string.isRequired,
+//   breed: PropTypes.string.isRequired,
+// };
