@@ -28,7 +28,6 @@ const SearchParams = () => {
             id="animal"
             value={animal}
             onChange={(event) => (setAnimal(event.target.value), setBreed(""))}
-            // onBlur={(event) => setAnimal(event.target.value)}
           >
             <option />
             {ANIMALS.map((animal) => (
@@ -42,7 +41,6 @@ const SearchParams = () => {
             id="breed"
             value={breed}
             onChange={(event) => setBreed(event.target.value)}
-            // onBlur={(event) => setBreed(event.target.value)}
             disabled={breeds.length === 0}
           >
             <option />
