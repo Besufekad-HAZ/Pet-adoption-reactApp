@@ -1,20 +1,13 @@
-import { Linter } from "eslint";
+import globals from "globals";
+import pluginJs from "@eslint/js";
+import tseslint from "typescript-eslint";
+import pluginReact from "eslint-plugin-react";
 
-const config = new Linter.Config({
-  extends: ["eslint:recommended", "prettier"],
-  plugins: [],
-  parserOptions: {
-    ecmaVersion: 2024,
-    sourceType: "module",
-    ecmaFeatures: {
-      jsx: true,
-    },
-  },
-  env: {
-    es6: true,
-    browser: true,
-    node: true,
-  },
-});
 
-export default config;
+export default [
+  {files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"]},
+  {languageOptions: { globals: globals.browser }},
+  pluginJs.configs.recommended,
+  ...tseslint.configs.recommended,
+  pluginReact.configs.flat.recommended,
+];
