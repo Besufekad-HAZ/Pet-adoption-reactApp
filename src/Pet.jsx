@@ -2,6 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const Pet = (props) => {
+  const { name, animal, breed, images, location, id } = props;
+
+  
   return (
     <div>
       <h1>{props.name}</h1>
