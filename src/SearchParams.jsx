@@ -69,7 +69,6 @@ const SearchParams = () => {
         </label>
         <button type="submit">Submit</button>
       </form>
-
       {pets.map((pet) => (
         <Pet
           key={pet.id}
