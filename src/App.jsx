@@ -1,6 +1,5 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import PropTypes from "prop-types";
 import SearchParams from "./SearchParams";
 
 const App = () => {
