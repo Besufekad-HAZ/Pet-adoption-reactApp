@@ -17,6 +17,14 @@ const Details = () => {
     );
   }
 
+  if (results.isError) {
+    return <div>Error loading details</div>;
+  }
+
+  if (!results.data || !results.data.pets || results.data.pets.length === 0) {
+    return <div>No pet details found</div>;
+  }
+
   const pet = results.data.pets[0];
 
   return (
