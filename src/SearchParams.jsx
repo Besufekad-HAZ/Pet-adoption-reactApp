@@ -12,11 +12,12 @@ const SearchParams = () => {
 
   useEffect(() => {
     requestPets();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function requestPets() {
     const res = await fetch(
-      `http://pets-v2.dev-apis.com/pets?animal=${animal}&location=${location}&breed=${breed}`,
+      `http://pets-v2.dev-apis.com/pets?animal=${animal}&location=${location}&breed=${breed}`
     );
     const json = await res.json();
     setPets(json.pets);
