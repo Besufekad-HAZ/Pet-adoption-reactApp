@@ -2,6 +2,7 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 import SearchParams from "./SearchParams";
 import Details from "./Details";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const App = () => {
   return (
