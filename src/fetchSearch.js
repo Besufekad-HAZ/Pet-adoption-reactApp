@@ -11,3 +11,4 @@ async function fetchSearch({ queryKey }) {
 }
 
 export default fetchSearch;
+ 
