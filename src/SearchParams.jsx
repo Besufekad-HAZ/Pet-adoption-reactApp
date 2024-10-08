@@ -33,15 +33,18 @@ const SearchParams = () => {
       >
         <label htmlFor="location">
           Location
-          <input name="location" id="location" placeholder="Location" />
+          <input id="location" name="location" placeholder="Location" />
         </label>
 
         <label htmlFor="animal">
           Animal
           <select
             id="animal"
-            value={animal}
+            name="animal"
             onChange={(e) => {
+              setAnimal(e.target.value);
+            }}
+            onBlur={(e) => {
               setAnimal(e.target.value);
             }}
           >
