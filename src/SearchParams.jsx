@@ -29,6 +29,7 @@ const SearchParams = () => {
             breed: formData.get("breed") ?? "",
             location: formData.get("location") ?? "",
           };
+          setRequestParams(obj);
         }}
       >
         <label htmlFor="location">
