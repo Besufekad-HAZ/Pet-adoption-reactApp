@@ -15,6 +15,8 @@ const SearchParams = () => {
   const [animal, setAnimal] = useState("");
   const [breeds] = useBreedList(animal);
 
+  const [adoptedPet] = useContext(AdoptedPetContext);
+
   const results = useQuery({
     queryKey: ["search", requestParams],
     queryFn: fetchSearch,
@@ -36,6 +38,15 @@ const SearchParams = () => {
           setRequestParams(obj);
         }}
       >
+        {adoptedPet ? (
+          <div className="pet-image">
+            <img
+              src={adoptedPet.images[0]}
+              alt={adoptedPet.name}
+              referrerPolicy="no-referrer"
+            />
+          </div>
+        ) : null}
         <label htmlFor="location">
           Location
           <input id="location" name="location" placeholder="Location" />
