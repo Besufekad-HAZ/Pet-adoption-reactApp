@@ -16,6 +16,7 @@ const Details = () => {
   // add showModal
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
+  // eslint-disable-next-line no-unused-vars
   const { _, setAdoptedPet } = useContext(AdoptedPetContext);
 
   if (results.isLoading) {
