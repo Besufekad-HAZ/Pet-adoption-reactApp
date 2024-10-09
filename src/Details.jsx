@@ -4,7 +4,7 @@ import ErrorBoundary from "./ErrorBoundary";
 import Carousel from "./Carousel";
 import fetchPet from "./fetchPet";
 
-const Details = () => {
+const Details = ({ importantNumber }) => {
   const { id } = useParams();
   const results = useQuery({
     queryKey: ["details", id],
@@ -39,6 +39,7 @@ const Details = () => {
           <button className="button_pet">Adopt {pet.name}</button>
           <p>{pet.description}</p>
         </h2>
+        <h1 className="">Important Number: {importantNumber}</h1>
       </div>
     </div>
   );
