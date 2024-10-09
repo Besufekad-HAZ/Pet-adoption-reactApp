@@ -44,4 +44,10 @@ const Details = () => {
   );
 };
 
-export default Details;
+const DetailsErrorBoundary = (props) => (
+  <ErrorBoundary>
+    <Details {...props} />
+  </ErrorBoundary>
+);
+
+export default DetailsErrorBoundary;
