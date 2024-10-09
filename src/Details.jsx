@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import ErrorBoundary from "./ErrorBoundary";
 import Carousel from "./Carousel";
 import fetchPet from "./fetchPet";
+import Modal from "./Modal";
 
 const Details = () => {
   const { id } = useParams();
