@@ -39,8 +39,22 @@ const Details = () => {
         <h1>{pet.name}</h1>
         <h2>
           {pet.animal} - {pet.breed} - {pet.city}, {pet.state}
-          <button className="button_pet">Adopt {pet.name}</button>
+          {/* add onClick to */}
+          <button onClick={() => setShowModal(true)} className="button_pet">
+            Adopt {pet.name}
+          </button>
           <p>{pet.description}</p>
+          {showModal ? (
+            <Modal>
+              <div>
+                <h1>Would you like to adopt {pet.name}?</h1>
+                <div className="buttons">
+                  <button>Yes</button>
+                  <button onClick={() => setShowModal(false)}>No</button>
+                </div>
+              </div>
+            </Modal>
+          ) : null}
         </h2>
       </div>
     </div>
