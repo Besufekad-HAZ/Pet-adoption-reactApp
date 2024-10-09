@@ -14,7 +14,6 @@ const queryClient = new QueryClient({
 });
 
 const App = () => {
-  const importantNumber = 15;
   return (
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
@@ -22,10 +21,7 @@ const App = () => {
           <Link to="/">Adopt Me!</Link>
         </header>
         <Routes>
-          <Route
-            path="/details/:id"
-            element={<Details importantNumber={importantNumber} />}
-          />
+          <Route path="/details/:id" element={<Details />} />
           <Route path="/" element={<SearchParams />} />
         </Routes>
       </QueryClientProvider>
