@@ -11,6 +11,8 @@ const Details = () => {
     queryKey: ["details", id],
     queryFn: fetchPet,
   });
+  // add showModal
+  const [showModal, setShowModal] = useState(false);
 
   if (results.isLoading) {
     return (
