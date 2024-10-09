@@ -10,22 +10,25 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: Infinity,
-      cacheTime: Infinity,  
+      cacheTime: Infinity,
     },
   },
 });
 
 const App = () => {
+  const adoptedPet = useState(null);
   return (
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-        <header>
-          <Link to="/">Adopt Me!</Link>
-        </header>
-        <Routes>
-          <Route path="/details/:id" element={<Details />} />
-          <Route path="/" element={<SearchParams />} />
-        </Routes>
+        <AdoptedPetContext.Provider value={adoptedPet}>
+          <header>
+            <Link to="/">Adopt Me!</Link>
+          </header>
+          <Routes>
+            <Route path="/details/:id" element={<Details />} />
+            <Route path="/" element={<SearchParams />} />
+          </Routes>
+        </AdoptedPetContext.Provider>
       </QueryClientProvider>
     </BrowserRouter>
   );
