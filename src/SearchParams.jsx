@@ -39,12 +39,8 @@ const SearchParams = () => {
         }}
       >
         {adoptedPet ? (
-          <div className="pet-image">
-            <img
-              src={adoptedPet.images[0]}
-              alt={adoptedPet.name}
-              referrerPolicy="no-referrer"
-            />
+          <div className="pet image-container">
+            <img src={adoptedPet.images[0]} alt={adoptedPet.name} />
           </div>
         ) : null}
         <label htmlFor="location">
