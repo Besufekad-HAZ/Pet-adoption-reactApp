@@ -23,20 +23,14 @@ class Carousel extends Component {
         <img src={images[active]} alt="animal" />
         <div className="carousel-smaller">
           {images.map((photo, index) => (
-            <button
+            // eslint-disable-next-line
+            <img
               onClick={this.handleIndexClick}
               data-index={index}
               key={photo}
+              src={photo}
               className={index === active ? "active" : ""}
-              aria-label={`Thumbnail ${index + 1}`}
-              style={{
-                background: `url(${photo}) no-repeat center center`,
-                backgroundSize: "cover",
-                border: "none",
-                padding: 0,
-                width: "100px",
-                height: "100px",
-              }}
+              alt="animal thumbnail"
             />
           ))}
         </div>
