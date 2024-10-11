@@ -37,19 +37,19 @@ const UseReducerComponent = () => {
       >
         This text should always be pretty close to readable
       </h1>
-      <div class="btn-groups">
+      <div className="btn-groups">
         <div className="btn-group">
-          <span class="btn-label">Hue</span>
+          <span className="btn-label">Hue</span>
           <button onClick={() => dispatch({ type: "INCREMENT_H" })}>➕</button>
           <button onClick={() => dispatch({ type: "DECREMENT_H" })}>➖</button>
         </div>
         <div className="btn-group">
-          <span class="btn-label">Saturation</span>
+          <span className="btn-label">Saturation</span>
           <button onClick={() => dispatch({ type: "INCREMENT_S" })}>➕</button>
           <button onClick={() => dispatch({ type: "DECREMENT_S" })}>➖</button>
         </div>
         <div className="btn-group">
-          <span class="btn-label">Lightness</span>
+          <span className="btn-label">Lightness</span>
           <button onClick={() => dispatch({ type: "INCREMENT_L" })}>➕</button>
           <button onClick={() => dispatch({ type: "DECREMENT_L" })}>➖</button>
         </div>
