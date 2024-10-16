@@ -18,19 +18,21 @@ const queryClient = new QueryClient({
 const App = () => {
   const adoptedPet = useState(null);
   return (
-    <BrowserRouter>
-      <QueryClientProvider client={queryClient}>
-        <AdoptedPetContext.Provider value={adoptedPet}>
-          <header>
-            <Link to="/">Adopt Me!</Link>
-          </header>
-          <Routes>
-            <Route path="/details/:id" element={<Details />} />
-            <Route path="/" element={<SearchParams />} />
-          </Routes>
-        </AdoptedPetContext.Provider>
-      </QueryClientProvider>
-    </BrowserRouter>
+    <div>
+      <BrowserRouter>
+        <QueryClientProvider client={queryClient}>
+          <AdoptedPetContext.Provider value={adoptedPet}>
+            <header>
+              <Link to="/">Adopt Me!</Link>
+            </header>
+            <Routes>
+              <Route path="/details/:id" element={<Details />} />
+              <Route path="/" element={<SearchParams />} />
+            </Routes>
+          </AdoptedPetContext.Provider>
+        </QueryClientProvider>
+      </BrowserRouter>
+    </div>
   );
 };
 
