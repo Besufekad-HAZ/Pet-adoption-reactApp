@@ -50,7 +50,7 @@ const SearchParams = () => {
             name="location"
             placeholder="Location"
             type="text"
-            className="mb-5 block w-60"
+            className="search-input"
           />
         </label>
 
@@ -65,7 +65,7 @@ const SearchParams = () => {
             onBlur={(e) => {
               setAnimal(e.target.value);
             }}
-            className="mb-5 block w-60"
+            className="search-input"
           >
             <option />
             {ANIMALS.map((animal) => (
@@ -82,7 +82,7 @@ const SearchParams = () => {
             disabled={!breeds.length}
             id="breed"
             name="breed"
-            className="mb-5 block w-60 disabled:bg-orange-500 disabled:opacity-30"
+            className="search-input grayed-out-disabled"
           >
             <option />
             {breeds.map((breed) => (
