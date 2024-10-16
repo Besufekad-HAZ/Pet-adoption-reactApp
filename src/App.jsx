@@ -19,7 +19,7 @@ const App = () => {
   const adoptedPet = useState(null);
   return (
     <div
-      className="ml-4 flex h-24 border-2 border-gray-300 p-3 text-gray-700 shadow-md"
+      className="m-0 p-0"
       style={{
         background: "url(http://pets-images.dev-apis.com/pets/wallpaperA.jpg",
       }}
@@ -27,7 +27,7 @@ const App = () => {
       <BrowserRouter>
         <QueryClientProvider client={queryClient}>
           <AdoptedPetContext.Provider value={adoptedPet}>
-            <header>
+            <header className="mb-10 w-full bg-gradient-to-b from-yellow-400 via-orange-500 to-red-500 p-7 text-center">
               <Link to="/">Adopt Me!</Link>
             </header>
             <Routes>
