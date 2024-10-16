@@ -29,9 +29,9 @@ const Details = () => {
   const pet = results.data.pets[0];
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container flex flex-col mx-auto p-4 gap-20">
       <Carousel images={pet.images} />
-      <div className="mt-8 text-center">
+      <div className="text-center mt-12">
         <h1 className="my-2 text-5xl text-gray-800">{pet.name}</h1>
         <h2 className="my-2 mb-5 text-xl">{`${pet.animal} — ${pet.breed} — ${pet.city}, ${pet.state}`}</h2>
         <button

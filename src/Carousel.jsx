@@ -25,7 +25,7 @@ class Carousel extends Component {
           alt="animal"
           className="lg:max-w-1/2 max-h-full max-w-full"
         />
-        <div className="carousel-smaller grid w-full grid-cols-3 lg:flex lg:w-2/4 lg:items-center lg:justify-center">
+        <div className="flex w-full lg:flex lg:w-2/4">
           {images.map((photo, index) => (
             // eslint-disable-next-line
             <img
