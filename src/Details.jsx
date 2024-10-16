@@ -1,11 +1,12 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { useContext, useState } from "react";
+import { lazy, useContext, useState } from "react";
 import AdoptedPetContext from "./AdoptedPetContext";
-import Modal from "./Modal";
 import ErrorBoundary from "./ErrorBoundary";
 import fetchPet from "./fetchPet";
 import Carousel from "./Carousel";
+
+const Modal = lazy(() => import("./Modal"));
 
 const Details = () => {
   const { id } = useParams();
@@ -20,8 +21,8 @@ const Details = () => {
 
   if (results.isLoading) {
     return (
-      <div className="loading-pane flex h-screen items-center justify-center">
-        <h2 className="loader text-4xl">🌀</h2>
+      <div className="flex h-screen items-center justify-center">
+        <h2 className="spin text-8xl">🐶</h2>
       </div>
     );
   }
@@ -29,9 +30,9 @@ const Details = () => {
   const pet = results.data.pets[0];
 
   return (
-    <div className="container flex flex-col mx-auto p-4 gap-20">
+    <div className="container mx-auto flex flex-col gap-20 p-4 lg:gap-1">
       <Carousel images={pet.images} />
-      <div className="text-center mt-12">
+      <div className="mt-12 text-center">
         <h1 className="my-2 text-5xl text-gray-800">{pet.name}</h1>
         <h2 className="my-2 mb-5 text-xl">{`${pet.animal} — ${pet.breed} — ${pet.city}, ${pet.state}`}</h2>
         <button

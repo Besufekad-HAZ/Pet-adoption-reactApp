@@ -13,4 +13,18 @@
     @apply disabled:bg-orange-500;
     @apply disabled:opacity-30;
   }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .spin {
+    @apply inline-block;
+    animation: spin 2s linear infinite;
+  }
 }
