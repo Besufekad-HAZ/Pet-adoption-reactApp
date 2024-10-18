@@ -20,6 +20,12 @@ app.use(
   "/assets",
   express.static(path.resolve(__dirname, "./dist/client/assets")),
 );
+
+app.use((req, res, next) => {
+  res.setHeader("Cache-Control", "no-store");
+  next();
+});
+
 app.use((req, res) => {
   res.write(parts[0]);
   const stream = renderApp(req.url, {
@@ -30,6 +36,7 @@ app.use((req, res) => {
       // do error handling
     },
     onAllReady() {
+      // last thing to write
       res.write(parts[1]);
       res.end();
     },
