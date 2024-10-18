@@ -5,18 +5,25 @@ import AdoptedPetContext from "./AdoptedPetContext";
 import ErrorBoundary from "./ErrorBoundary";
 import fetchPet from "./fetchPet";
 import Carousel from "./Carousel";
+import { PetAPIResponse } from "./APIResponsesTypes";
 
 const Modal = lazy(() => import("./Modal"));
 
 const Details = () => {
   const { id } = useParams();
-  const results = useQuery({
-    queryKey: ["details", id],
-    queryFn: fetchPet,
-  });
+  if (!id) {
+    throw new Error("no id, Please Give me an ID???");
+  }
+  const results =
+    useQuery <
+    PetAPIResponse >
+    {
+      queryKey: ["details", id],
+      queryFn: fetchPet,
+    };
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-unsafe-assignment
   const [_, setAdoptedPet] = useContext(AdoptedPetContext);
 
   if (results.isLoading) {
@@ -27,7 +34,7 @@ const Details = () => {
     );
   }
 
-  const pet = results.data.pets[0];
+  const pet = results.data?.pets[0];
 
   return (
     <div className="container mx-auto flex flex-col gap-20 p-4 lg:gap-1">
