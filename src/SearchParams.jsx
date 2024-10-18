@@ -22,6 +22,11 @@ const SearchParams = () => {
   });
 
   const pets = results?.data?.pets ?? [];
+  const deferredPets = useDeferredValue(pets);
+  const renderedPets = useMemo(
+    () => <Results pets={deferredPets} />,
+    [deferredPets],
+  );
 
   return (
     <div className="my-0 mx-auto w-11/12">
@@ -100,7 +105,7 @@ const SearchParams = () => {
           Submit
         </button>
       </form>
-      <Results pets={pets} />
+      {renderedPets}
     </div>
   );
 };
