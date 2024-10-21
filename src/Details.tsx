@@ -10,24 +10,31 @@ const Modal = lazy(() => import("./Modal"));
 
 const Details = () => {
   const { id } = useParams();
+  if (!id) {
+    throw new Error("no id, Please Give me an ID???");
+  }
   const results = useQuery({
     queryKey: ["details", id],
     queryFn: fetchPet,
   });
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setAdoptedPet] = useContext(AdoptedPetContext);
 
   if (results.isLoading) {
     return (
-      <div className="flex h-screen items-center justify-center">
-        <h2 className="spin text-8xl">🐶</h2>
+      <div className="loading-pane">
+        <h2 className="loader">🌀</h2>
       </div>
     );
   }
 
-  const pet = results.data.pets[0];
+  const pet = results?.data?.pets[0];
+
+  if (!pet) {
+    throw new Error("pet not found!!");
+  }
 
   return (
     <div className="container mx-auto flex flex-col gap-20 p-4 lg:gap-1">
@@ -73,10 +80,10 @@ const Details = () => {
   );
 };
 
-export default function DetailsErrorBoundary(props) {
+export default function DetailsErrorBoundary() {
   return (
     <ErrorBoundary>
-      <Details {...props} />
+      <Details />
     </ErrorBoundary>
   );
 }

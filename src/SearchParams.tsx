@@ -1,10 +1,17 @@
-import { useContext, useState } from "react";
+import {
+  useContext,
+  useState,
+  useDeferredValue,
+  useMemo,
+  useTransition,
+} from "react";
 import { useQuery } from "@tanstack/react-query";
 import Results from "./Results";
 import AdoptedPetContext from "./AdoptedPetContext";
 import useBreedList from "./useBreedList";
 import fetchSearch from "./fetchSearch";
-const ANIMALS = ["bird", "cat", "dog", "rabbit", "reptile"];
+import { Animal } from "./APIResponsesTypes";
+const ANIMALS: Animal[] = ["bird", "cat", "dog", "rabbit", "reptile"];
 
 const SearchParams = () => {
   const [requestParams, setRequestParams] = useState({
@@ -13,8 +20,9 @@ const SearchParams = () => {
     breed: "",
   });
   const [adoptedPet] = useContext(AdoptedPetContext);
-  const [animal, setAnimal] = useState("");
+  const [animal, setAnimal] = useState("" as Animal);
   const [breeds] = useBreedList(animal);
+  const [isPending, startTransition] = useTransition();
 
   const results = useQuery({
     queryKey: ["search", requestParams],
@@ -22,6 +30,11 @@ const SearchParams = () => {
   });
 
   const pets = results?.data?.pets ?? [];
+  const deferredPets = useDeferredValue(pets);
+  const renderedPets = useMemo(
+    () => <Results pets={deferredPets} />,
+    [deferredPets],
+  );
 
   return (
     <div className="my-0 mx-auto w-11/12">
@@ -29,12 +42,16 @@ const SearchParams = () => {
         className="mb-10 flex flex-col items-center justify-center rounded-lg bg-gray-200 p-10 shadow-lg"
         onSubmit={(e) => {
           e.preventDefault();
-          const formData = new FormData(e.target);
+          const formData = new FormData(e.target as HTMLFormElement);
           const obj = {
-            animal: formData.get("animal") ?? "",
-            breed: formData.get("breed") ?? "",
-            location: formData.get("location") ?? "",
+            animal: formData.get("animal") as string,
+            breed: formData.get("breed") as string,
+            location: formData.get("location") as string,
           };
+
+          startTransition(() => {
+            return setRequestParams(obj);
+          });
           setRequestParams(obj);
         }}
       >
@@ -60,10 +77,10 @@ const SearchParams = () => {
             id="animal"
             name="animal"
             onChange={(e) => {
-              setAnimal(e.target.value);
+              setAnimal(e.target.value as Animal);
             }}
             onBlur={(e) => {
-              setAnimal(e.target.value);
+              setAnimal(e.target.value as Animal);
             }}
             className="search-input"
           >
@@ -92,15 +109,18 @@ const SearchParams = () => {
             ))}
           </select>
         </label>
-
-        <button
-          type="submit"
-          className="rounded border-none bg-orange-500 px-6 py-2 text-white hover:opacity-50"
-        >
-          Submit
-        </button>
+        {isPending ? (
+          <h2 className="spin text-3xl">🐶</h2>
+        ) : (
+          <button
+            type="submit"
+            className="rounded border-none bg-orange-500 px-6 py-2 text-white hover:opacity-50"
+          >
+            Submit
+          </button>
+        )}
       </form>
-      <Results pets={pets} />
+      {renderedPets}
     </div>
   );
 };
