@@ -10,7 +10,8 @@ import Results from "./Results";
 import AdoptedPetContext from "./AdoptedPetContext";
 import useBreedList from "./useBreedList";
 import fetchSearch from "./fetchSearch";
-const ANIMALS = ["bird", "cat", "dog", "rabbit", "reptile"];
+import { Animal } from "./APIResponsesTypes";
+const ANIMALS: Animal[] = ["bird", "cat", "dog", "rabbit", "reptile"];
 
 const SearchParams = () => {
   const [requestParams, setRequestParams] = useState({
@@ -19,7 +20,7 @@ const SearchParams = () => {
     breed: "",
   });
   const [adoptedPet] = useContext(AdoptedPetContext);
-  const [animal, setAnimal] = useState("");
+  const [animal, setAnimal] = useState("" as Animal);
   const [breeds] = useBreedList(animal);
   const [isPending, startTransition] = useTransition();
 
@@ -109,7 +110,7 @@ const SearchParams = () => {
           </select>
         </label>
         {isPending ? (
-            <h2 className="spin text-3xl">🐶</h2>
+          <h2 className="spin text-3xl">🐶</h2>
         ) : (
           <button
             type="submit"
