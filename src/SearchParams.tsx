@@ -42,15 +42,15 @@ const SearchParams = () => {
         className="mb-10 flex flex-col items-center justify-center rounded-lg bg-gray-200 p-10 shadow-lg"
         onSubmit={(e) => {
           e.preventDefault();
-          const formData = new FormData(e.target);
+          const formData = new FormData(e.target as HTMLFormElement);
           const obj = {
-            animal: formData.get("animal") ?? "",
-            breed: formData.get("breed") ?? "",
-            location: formData.get("location") ?? "",
+            animal: formData.get("animal") as string,
+            breed: formData.get("breed") as string,
+            location: formData.get("location") as string,
           };
 
           startTransition(() => {
-            setRequestParams(obj);
+            return setRequestParams(obj);
           });
           setRequestParams(obj);
         }}
@@ -77,10 +77,10 @@ const SearchParams = () => {
             id="animal"
             name="animal"
             onChange={(e) => {
-              setAnimal(e.target.value);
+              setAnimal(e.target.value as Animal);
             }}
             onBlur={(e) => {
-              setAnimal(e.target.value);
+              setAnimal(e.target.value as Animal);
             }}
             className="search-input"
           >
