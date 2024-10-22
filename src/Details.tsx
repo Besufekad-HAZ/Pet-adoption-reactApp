@@ -3,7 +3,6 @@ import { lazy, useState, Suspense } from "react";
 import { useDispatch } from "react-redux";
 import { adopt } from "./redux/adoptedPetSlice";
 import ErrorBoundary from "./ErrorBoundary";
-import fetchPet from "./fetchPet";
 import Carousel from "./Carousel";
 
 const Modal = lazy(() => import("./Modal"));
