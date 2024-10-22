@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { lazy, useState } from "react";
+import { lazy, useState, Suspense } from "react";
 import { useDispatch } from "react-redux";
 import { adopt } from "./adoptedPetSlice";
 import ErrorBoundary from "./ErrorBoundary";
@@ -51,30 +51,33 @@ const Details = () => {
         </button>
         <p className="px-4 leading-6">{pet.description}</p>
         {showModal ? (
-          <Modal>
-            <div className="rounded bg-white p-8 text-center shadow-lg">
-              <h1 className="mb-4 text-2xl">
-                Would you like to adopt {pet.name}?
-              </h1>
-              <div className="buttons flex justify-center space-x-4">
-                <button
-                  className="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-700"
-                  onClick={() => {
-                    dispatch(adopt(pet));
-                    navigate("/");
-                  }}
-                >
-                  Yes
-                </button>
-                <button
-                  className="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-700"
-                  onClick={() => setShowModal(false)}
-                >
-                  No
-                </button>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Modal>
+              <div className="rounded bg-white p-8 text-center shadow-lg">
+                <h1 className="mb-4 text-2xl">
+                  Would you like to adopt {pet.name}?
+                </h1>
+                <div className="buttons flex justify-center space-x-4">
+                  <button
+                    className="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-700"
+                    onClick={() => {
+                      dispatch(adopt(pet));
+                      console.log("Adopted pet:", pet);
+                      navigate("/");
+                    }}
+                  >
+                    Yes
+                  </button>
+                  <button
+                    className="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-700"
+                    onClick={() => setShowModal(false)}
+                  >
+                    No
+                  </button>
+                </div>
               </div>
-            </div>
-          </Modal>
+            </Modal>
+          </Suspense>
         ) : null}
       </div>
     </div>

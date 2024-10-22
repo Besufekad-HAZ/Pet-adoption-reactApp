@@ -1,17 +1,30 @@
-import {
-  useContext,
-  useState,
-  useDeferredValue,
-  useMemo,
-  useTransition,
-} from "react";
+import { useState, useDeferredValue, useMemo, useTransition } from "react";
+import { useSelector } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
+import { createSelector } from "reselect";
 import Results from "./Results";
-import AdoptedPetContext from "./AdoptedPetContext";
 import useBreedList from "./useBreedList";
 import fetchSearch from "./fetchSearch";
 import { Animal } from "./APIResponsesTypes";
 const ANIMALS: Animal[] = ["bird", "cat", "dog", "rabbit", "reptile"];
+
+interface RootState {
+  adoptedPet: {
+    value: {
+      images: string[];
+      name: string;
+    } | null;
+  };
+}
+
+// Memoized selector
+const selectAdoptedPet = createSelector(
+  [(state: RootState) => state.adoptedPet.value],
+  (adoptedPet) => {
+    console.log("Selector called with:", adoptedPet);
+    return adoptedPet || { images: [], name: "" };
+  },
+);
 
 const SearchParams = () => {
   const [requestParams, setRequestParams] = useState({
@@ -19,7 +32,9 @@ const SearchParams = () => {
     animal: "",
     breed: "",
   });
-  const [adoptedPet] = useContext(AdoptedPetContext);
+
+  const adoptedPet = useSelector(selectAdoptedPet);
+  console.log("Adopted pet:", adoptedPet);
   const [animal, setAnimal] = useState("" as Animal);
   const [breeds] = useBreedList(animal);
   const [isPending, startTransition] = useTransition();
@@ -50,16 +65,15 @@ const SearchParams = () => {
           };
 
           startTransition(() => {
-            return setRequestParams(obj);
+            setRequestParams(obj);
           });
-          setRequestParams(obj);
         }}
       >
-        {adoptedPet ? (
-          <div className="pet image-container">
+        {adoptedPet && adoptedPet.images && adoptedPet.images.length > 0 && (
+          <div className="pet image-container mb-10">
             <img src={adoptedPet.images[0]} alt={adoptedPet.name} />
           </div>
-        ) : null}
+        )}
         <label htmlFor="location">
           Location
           <input
