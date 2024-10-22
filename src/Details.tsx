@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { lazy, useState, Suspense } from "react";
 import { useDispatch } from "react-redux";
-import { adopt } from "./adoptedPetSlice";
+import { adopt } from "./redux/adoptedPetSlice";
 import ErrorBoundary from "./ErrorBoundary";
 import fetchPet from "./fetchPet";
 import Carousel from "./Carousel";
