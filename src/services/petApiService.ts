@@ -5,42 +5,41 @@ export const petApi = createApi({
   reducerPath: "petApi",
   baseQuery: fetchBaseQuery({ baseUrl: "https://pets-v2.dev-apis.com" }),
   endpoints: (builder) => ({
-    getPet: builder.query<PetAPIResponse, string>({
-      query: (id) => ({
+    getPet: builder.query({
+      query: (id: string) => ({
         url: "pets",
-        params: { id },
+        params: {
+          id,
+        },
       }),
-      transformResponse: (response: PetAPIResponse) => ({
-        pets: [response.pets[0]],
-        numberOfResults: response.numberOfResults,
-        startIndex: response.startIndex,
-        endIndex: response.endIndex,
-        hasNext: response.hasNext,
-      }),
+      transformResponse: (response: PetAPIResponse) => response.pets[0],
     }),
-    getBreed: builder.query<BreedListAPIResponse, { animal: string }>({
-      query: ({ animal }) => ({
+    getBreed: builder.query({
+      query: (animal: string) => ({
         url: "breeds",
-        params: { animal },
+        params: {
+          animal,
+        },
       }),
+      transformResponse: (response: BreedListAPIResponse): string[] =>
+        response.breeds,
     }),
-    searchPets: builder.query<
-      PetAPIResponse,
-      { animal: string; location: string; breed: string }
-    >({
-      query: ({ animal, location, breed }) => ({
+    search: builder.query({
+      query: ({
+        animal,
+        location,
+        breed,
+      }: {
+        animal: string;
+        location: string;
+        breed: string;
+      }) => ({
         url: "pets",
         params: { animal, location, breed },
       }),
-      transformResponse: (response: PetAPIResponse) => ({
-        pets: response.pets,
-        numberOfResults: response.numberOfResults,
-        startIndex: response.startIndex,
-        endIndex: response.endIndex,
-        hasNext: response.hasNext,
-      }),
+      transformResponse: (response: PetAPIResponse) => response.pets,
     }),
   }),
 });
 
-export const { useGetPetQuery, useGetBreedQuery, useSearchPetsQuery } = petApi;
+export const { useGetPetQuery, useGetBreedQuery } = petApi;
