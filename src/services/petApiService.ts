@@ -42,4 +42,4 @@ export const petApi = createApi({
   }),
 });
 
-export const { useGetPetQuery, useGetBreedQuery } = petApi;
+export const { useGetPetQuery, useGetBreedQuery, useSearchQuery } = petApi;
