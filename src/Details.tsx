@@ -1,5 +1,4 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
 import { lazy, useState, Suspense } from "react";
 import { useDispatch } from "react-redux";
 import { adopt } from "./redux/adoptedPetSlice";
