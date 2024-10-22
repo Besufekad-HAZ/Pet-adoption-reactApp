@@ -1,16 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Pet } from "./APIResponsesTypes";
 
-export const adoptedPetSlice = createSlice({
+const adoptedPetSlice = createSlice({
   name: "adoptedPet",
-  initialState: {
-    value: null as string | null,
-  },
+
+  initialState: null as Pet | null,
+
   reducers: {
-    adopt: (state, action: { payload: string | null }) => {
-      state.value = action.payload;
-    },
+    adopt: (state, action: PayloadAction<Pet>) => action.payload,
   },
 });
 
 export const { adopt } = adoptedPetSlice.actions;
+
 export default adoptedPetSlice.reducer;
