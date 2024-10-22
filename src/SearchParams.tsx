@@ -1,46 +1,25 @@
 import { useState, useDeferredValue, useMemo, useTransition } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
-import { createSelector } from "reselect";
 import Results from "./Results";
 import useBreedList from "./useBreedList";
 import fetchSearch from "./fetchSearch";
 import { Animal } from "./APIResponsesTypes";
+import { all } from "./redux/searchParamsSlice";
+import { RootState } from "./redux/store";
+
 const ANIMALS: Animal[] = ["bird", "cat", "dog", "rabbit", "reptile"];
 
-interface RootState {
-  adoptedPet: {
-    value: {
-      images: string[];
-      name: string;
-    } | null;
-  };
-}
-
-// Memoized selector
-const selectAdoptedPet = createSelector(
-  [(state: RootState) => state.adoptedPet.value],
-  (adoptedPet) => {
-    // console.log("Selector called with:", adoptedPet);
-    return adoptedPet || { images: [], name: "" };
-  },
-);
-
 const SearchParams = () => {
-  const [requestParams, setRequestParams] = useState({
-    location: "",
-    animal: "",
-    breed: "",
-  });
-
-  const adoptedPet = useSelector(selectAdoptedPet);
-  // console.log("Adopted pet:", adoptedPet);
+  const adoptedPet = useSelector((state: RootState) => state.adoptedPet.value);
+  const searchParams = useSelector((state: RootState) => state.searchParams);
   const [animal, setAnimal] = useState("" as Animal);
   const [breeds] = useBreedList(animal);
   const [isPending, startTransition] = useTransition();
+  const dispatch = useDispatch();
 
   const results = useQuery({
-    queryKey: ["search", requestParams],
+    queryKey: ["search", searchParams],
     queryFn: fetchSearch,
   });
 
@@ -65,7 +44,7 @@ const SearchParams = () => {
           };
 
           startTransition(() => {
-            setRequestParams(obj);
+            dispatch(all(obj));
           });
         }}
       >
@@ -82,6 +61,10 @@ const SearchParams = () => {
             placeholder="Location"
             type="text"
             className="search-input"
+            value={searchParams.location}
+            onChange={(e) =>
+              dispatch(all({ ...searchParams, location: e.target.value }))
+            }
           />
         </label>
 
@@ -90,11 +73,14 @@ const SearchParams = () => {
           <select
             id="animal"
             name="animal"
+            value={searchParams.animal}
             onChange={(e) => {
               setAnimal(e.target.value as Animal);
+              dispatch(all({ ...searchParams, animal: e.target.value }));
             }}
             onBlur={(e) => {
               setAnimal(e.target.value as Animal);
+              dispatch(all({ ...searchParams, animal: e.target.value }));
             }}
             className="search-input"
           >
@@ -113,6 +99,10 @@ const SearchParams = () => {
             disabled={!breeds.length}
             id="breed"
             name="breed"
+            value={searchParams.breed}
+            onChange={(e) =>
+              dispatch(all({ ...searchParams, breed: e.target.value }))
+            }
             className="search-input grayed-out-disabled"
           >
             <option />
