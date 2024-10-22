@@ -12,7 +12,9 @@ const ANIMALS: Animal[] = ["bird", "cat", "dog", "rabbit", "reptile"];
 
 const SearchParams = () => {
   const adoptedPet = useSelector((state: RootState) => state.adoptedPet.value);
-  const searchParams = useSelector((state: RootState) => state.searchParams);
+  const searchParams = useSelector(
+    (state: RootState) => state.searchParams.value,
+  );
   const [animal, setAnimal] = useState("" as Animal);
   const [breeds] = useBreedList(animal);
   const [isPending, startTransition] = useTransition();
