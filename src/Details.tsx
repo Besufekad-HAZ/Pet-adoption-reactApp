@@ -62,7 +62,7 @@ const Details = () => {
                     className="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-700"
                     onClick={() => {
                       dispatch(adopt(pet));
-                      console.log("Adopted pet:", pet);
+                      // console.log("Adopted pet:", pet);
                       navigate("/");
                     }}
                   >

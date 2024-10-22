@@ -21,7 +21,7 @@ interface RootState {
 const selectAdoptedPet = createSelector(
   [(state: RootState) => state.adoptedPet.value],
   (adoptedPet) => {
-    console.log("Selector called with:", adoptedPet);
+    // console.log("Selector called with:", adoptedPet);
     return adoptedPet || { images: [], name: "" };
   },
 );
@@ -34,7 +34,7 @@ const SearchParams = () => {
   });
 
   const adoptedPet = useSelector(selectAdoptedPet);
-  console.log("Adopted pet:", adoptedPet);
+  // console.log("Adopted pet:", adoptedPet);
   const [animal, setAnimal] = useState("" as Animal);
   const [breeds] = useBreedList(animal);
   const [isPending, startTransition] = useTransition();
