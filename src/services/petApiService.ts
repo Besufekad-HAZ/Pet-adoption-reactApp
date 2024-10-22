@@ -5,26 +5,42 @@ export const petApi = createApi({
   reducerPath: "petApi",
   baseQuery: fetchBaseQuery({ baseUrl: "https://pets-v2.dev-apis.com" }),
   endpoints: (builder) => ({
-    getPet: builder.query({
-      query: (id: string) => ({
+    getPet: builder.query<PetAPIResponse, string>({
+      query: (id) => ({
         url: "pets",
-        params: {
-          id,
-        },
+        params: { id },
       }),
-      transformResponse: (response: PetAPIResponse) => response.pets[0],
+      transformResponse: (response: PetAPIResponse) => ({
+        pets: [response.pets[0]],
+        numberOfResults: response.numberOfResults,
+        startIndex: response.startIndex,
+        endIndex: response.endIndex,
+        hasNext: response.hasNext,
+      }),
     }),
-    getBreed: builder.query({
-      query: (animal: string) => ({
+    getBreed: builder.query<BreedListAPIResponse, { animal: string }>({
+      query: ({ animal }) => ({
         url: "breeds",
-        params: {
-          animal,
-        },
+        params: { animal },
       }),
-      transformResponse: (response: BreedListAPIResponse): string[] =>
-        response.breeds,
+    }),
+    searchPets: builder.query<
+      PetAPIResponse,
+      { animal: string; location: string; breed: string }
+    >({
+      query: ({ animal, location, breed }) => ({
+        url: "pets",
+        params: { animal, location, breed },
+      }),
+      transformResponse: (response: PetAPIResponse) => ({
+        pets: response.pets,
+        numberOfResults: response.numberOfResults,
+        startIndex: response.startIndex,
+        endIndex: response.endIndex,
+        hasNext: response.hasNext,
+      }),
     }),
   }),
 });
 
-export const { useGetPetQuery, useGetBreedQuery } = petApi;
+export const { useGetPetQuery, useGetBreedQuery, useSearchPetsQuery } = petApi;
