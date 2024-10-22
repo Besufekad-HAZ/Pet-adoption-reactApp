@@ -1,9 +1,8 @@
 import { useState, useDeferredValue, useMemo, useTransition } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useQuery } from "@tanstack/react-query";
+import { useSearchQuery } from "./services/petApiService";
 import Results from "./Results";
 import useBreedList from "./useBreedList";
-import fetchSearch from "./fetchSearch";
 import { Animal } from "./APIResponsesTypes";
 import { all } from "./redux/searchParamsSlice";
 import { RootState } from "./redux/store";
@@ -20,12 +19,9 @@ const SearchParams = () => {
   const [isPending, startTransition] = useTransition();
   const dispatch = useDispatch();
 
-  const results = useQuery({
-    queryKey: ["search", searchParams],
-    queryFn: fetchSearch,
-  });
+  let { data: pets } = useSearchQuery(searchParams);
+  pets = pets ?? [];
 
-  const pets = results?.data?.pets ?? [];
   const deferredPets = useDeferredValue(pets);
   const renderedPets = useMemo(
     () => <Results pets={deferredPets} />,
@@ -108,11 +104,12 @@ const SearchParams = () => {
             className="search-input grayed-out-disabled"
           >
             <option />
-            {breeds.map((breed) => (
-              <option key={breed} value={breed}>
-                {breed}
-              </option>
-            ))}
+            {Array.isArray(breeds) &&
+              breeds.map((breed) => (
+                <option key={breed} value={breed}>
+                  {breed}
+                </option>
+              ))}
           </select>
         </label>
         {isPending ? (
