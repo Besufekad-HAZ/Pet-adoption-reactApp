@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { lazy, useState, Suspense } from "react";
 import { useDispatch } from "react-redux";
+import { useGetPetQuery } from "./services/petApiService";
 import { adopt } from "./redux/adoptedPetSlice";
 import ErrorBoundary from "./ErrorBoundary";
 import Carousel from "./Carousel";
@@ -12,24 +13,19 @@ const Details = () => {
   if (!id) {
     throw new Error("no id, Please Give me an ID???");
   }
-  const results = useQuery({
-    queryKey: ["details", id],
-    queryFn: fetchPet,
-  });
+  const { isLoading, data: pet } = useGetPetQuery(id);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
-  if (results.isLoading) {
+  if (isLoading) {
     return (
       <div className="loading-pane">
         <h2 className="loader">🌀</h2>
       </div>
     );
   }
-
-  const pet = results?.data?.pets[0];
 
   if (!pet) {
     throw new Error("pet not found!!");
