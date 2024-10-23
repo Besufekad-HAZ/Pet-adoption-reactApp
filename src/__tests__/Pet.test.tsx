@@ -1,4 +1,5 @@
 import { expect, test } from "vitest";
+import { StaticRouter } from "react-router-dom/server";
 import { render } from "@testing-library/react";
 import Pet from "../Pet";
 
