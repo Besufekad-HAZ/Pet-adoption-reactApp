@@ -2,7 +2,7 @@ import { expect, test } from "vitest";
 import { render } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import useBreedList from "../useBreedList";
-import { s } from "vitest/dist/index-220c1d70";
+import { Animal } from "../APIResponsesTypes";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -13,11 +13,10 @@ const queryClient = new QueryClient({
   },
 });
 
-function getBreedList(animal) {
+function getBreedList(animal: Animal) {
   let list;
 
   function TestComponent() {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     list = useBreedList(animal);
     return null;
   }
@@ -31,7 +30,6 @@ function getBreedList(animal) {
   return list;
 }
 
-// eslint-disable-next-line @typescript-eslint/require-await
 test("gives an empty list with no animal", async () => {
   const [breedList, status] = getBreedList();
   expect(breedList).toHaveLength(0);
