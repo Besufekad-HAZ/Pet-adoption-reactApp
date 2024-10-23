@@ -14,7 +14,7 @@ export const searchParamsSlice = createSlice({
       state,
       action: { payload: { location: string; breed: string; animal: string } },
     ) => {
-      state.value = action.payload
+      state.value = action.payload;
     },
   },
 });

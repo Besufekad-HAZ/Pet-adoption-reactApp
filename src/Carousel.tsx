@@ -4,8 +4,12 @@ interface IProps {
   images: string[];
 }
 
-class Carousel extends Component<IProps> {
-  state = {
+interface IState {
+  active: number;
+}
+
+class Carousel extends Component<IProps, IState> {
+  state: IState = {
     active: 0,
   };
 
@@ -29,6 +33,7 @@ class Carousel extends Component<IProps> {
       <div className="carousel mt-2 flex h-96 flex-col items-center justify-around lg:flex-row">
         <img
           src={images[active]}
+          data-testid="hero"
           alt="animal"
           className="lg:max-w-1/2 max-h-full max-w-full"
         />
@@ -38,11 +43,12 @@ class Carousel extends Component<IProps> {
             <img
               onClick={this.handleIndexClick}
               data-index={index}
+              data-testid={`thumbnail${index}`}
               key={photo}
               src={photo}
               className={`m-4 inline-block h-24 w-24 cursor-pointer rounded-full border-2 ${
                 index === active
-                  ? "border-gray-800 opacity-60"
+                  ? "active border-gray-800 opacity-60"
                   : "border-gray-300"
               }`}
               alt="animal thumbnail"

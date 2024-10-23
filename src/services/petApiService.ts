@@ -21,8 +21,12 @@ export const petApi = createApi({
           animal,
         },
       }),
-      transformResponse: (response: BreedListAPIResponse): string[] =>
-        response.breeds,
+      transformResponse: (response: BreedListAPIResponse): string[] => {
+        if (!response || !response.breeds) {
+          return [];
+        }
+        return response.breeds;
+      },
     }),
     search: builder.query({
       query: ({
