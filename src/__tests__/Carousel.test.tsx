@@ -1,25 +1,21 @@
 import { expect, test } from "vitest";
-import { render, fireEvent } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import Carousel from "../Carousel";
 
-test("displays the first image by default", () => {
-  const images = ["1.jpg", "2.jpg", "3.jpg"];
-  const { getByAltText } = render(<Carousel images={images} />);
-  const displayedImage = getByAltText("animal") as HTMLImageElement;
-  expect(displayedImage.src).toContain("1.jpg");
-});
+test("lets users click on thumbnails to make them the hero", async () => {
+  const images = ["0.jpg", "1.jpg", "2.jpg", "3.jpg"];
+  const carousel = render(<Carousel images={images} />);
 
-test("changes image when thumbnail is clicked", () => {
-  const images = ["1.jpg", "2.jpg", "3.jpg"];
-  const { getByAltText, getAllByAltText } = render(
-    <Carousel images={images} />,
-  );
-  const thumbnails = getAllByAltText("animal thumbnail");
+  const hero = await carousel.findByTestId("hero");
+  expect(hero.src).toContain(images[0]);
 
-  fireEvent.click(thumbnails[1]);
-  const displayedImage = getByAltText("animal") as HTMLImageElement;
-  expect(displayedImage.src).toContain("2.jpg");
+  for (let i = 0; i < images.length; i++) {
+    const image = images[i];
 
-  fireEvent.click(thumbnails[2]);
-  expect(displayedImage.src).toContain("3.jpg");
+    const thumb = await carousel.findByTestId(`thumbnail${i}`);
+    await thumb.click();
+
+    expect(hero.src).toContain(image);
+    expect(Array.from(thumb.classList)).toContain("active");
+  }
 });
