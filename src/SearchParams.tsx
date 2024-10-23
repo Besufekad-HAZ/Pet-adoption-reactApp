@@ -29,7 +29,7 @@ const SearchParams = () => {
   );
 
   return (
-    <div className="my-0 mx-auto w-11/12">
+    <div className="mx-auto my-0 w-11/12">
       <form
         className="mb-10 flex flex-col items-center justify-center rounded-lg bg-gray-200 p-10 shadow-lg"
         onSubmit={(e) => {
