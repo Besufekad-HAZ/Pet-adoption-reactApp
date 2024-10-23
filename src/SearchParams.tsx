@@ -1,35 +1,27 @@
-import {
-  useContext,
-  useState,
-  useDeferredValue,
-  useMemo,
-  useTransition,
-} from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useState, useDeferredValue, useMemo, useTransition } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useSearchQuery } from "./services/petApiService";
 import Results from "./Results";
-import AdoptedPetContext from "./AdoptedPetContext";
 import useBreedList from "./useBreedList";
-import fetchSearch from "./fetchSearch";
 import { Animal } from "./APIResponsesTypes";
+import { all } from "./redux/searchParamsSlice";
+import { RootState } from "./redux/store";
+
 const ANIMALS: Animal[] = ["bird", "cat", "dog", "rabbit", "reptile"];
 
 const SearchParams = () => {
-  const [requestParams, setRequestParams] = useState({
-    location: "",
-    animal: "",
-    breed: "",
-  });
-  const [adoptedPet] = useContext(AdoptedPetContext);
+  const adoptedPet = useSelector((state: RootState) => state.adoptedPet.value);
+  const searchParams = useSelector(
+    (state: RootState) => state.searchParams.value,
+  );
   const [animal, setAnimal] = useState("" as Animal);
   const [breeds] = useBreedList(animal);
   const [isPending, startTransition] = useTransition();
+  const dispatch = useDispatch();
 
-  const results = useQuery({
-    queryKey: ["search", requestParams],
-    queryFn: fetchSearch,
-  });
+  let { data: pets } = useSearchQuery(searchParams);
+  pets = pets ?? [];
 
-  const pets = results?.data?.pets ?? [];
   const deferredPets = useDeferredValue(pets);
   const renderedPets = useMemo(
     () => <Results pets={deferredPets} />,
@@ -50,16 +42,15 @@ const SearchParams = () => {
           };
 
           startTransition(() => {
-            return setRequestParams(obj);
+            dispatch(all(obj));
           });
-          setRequestParams(obj);
         }}
       >
-        {adoptedPet ? (
-          <div className="pet image-container">
+        {adoptedPet && adoptedPet.images && adoptedPet.images.length > 0 && (
+          <div className="pet image-container mb-10">
             <img src={adoptedPet.images[0]} alt={adoptedPet.name} />
           </div>
-        ) : null}
+        )}
         <label htmlFor="location">
           Location
           <input
@@ -68,6 +59,10 @@ const SearchParams = () => {
             placeholder="Location"
             type="text"
             className="search-input"
+            value={searchParams.location}
+            onChange={(e) =>
+              dispatch(all({ ...searchParams, location: e.target.value }))
+            }
           />
         </label>
 
@@ -76,11 +71,14 @@ const SearchParams = () => {
           <select
             id="animal"
             name="animal"
+            value={searchParams.animal}
             onChange={(e) => {
               setAnimal(e.target.value as Animal);
+              dispatch(all({ ...searchParams, animal: e.target.value }));
             }}
             onBlur={(e) => {
               setAnimal(e.target.value as Animal);
+              dispatch(all({ ...searchParams, animal: e.target.value }));
             }}
             className="search-input"
           >
@@ -99,14 +97,19 @@ const SearchParams = () => {
             disabled={!breeds.length}
             id="breed"
             name="breed"
+            value={searchParams.breed}
+            onChange={(e) =>
+              dispatch(all({ ...searchParams, breed: e.target.value }))
+            }
             className="search-input grayed-out-disabled"
           >
             <option />
-            {breeds.map((breed) => (
-              <option key={breed} value={breed}>
-                {breed}
-              </option>
-            ))}
+            {Array.isArray(breeds) &&
+              breeds.map((breed) => (
+                <option key={breed} value={breed}>
+                  {breed}
+                </option>
+              ))}
           </select>
         </label>
         {isPending ? (

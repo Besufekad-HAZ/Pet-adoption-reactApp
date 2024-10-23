@@ -1,15 +1,14 @@
-import { QueryStatus, useQuery } from "@tanstack/react-query";
+import { useGetBreedQuery } from "./services/petApiService";
 import { Animal } from "./APIResponsesTypes";
-import fetchBreedList from "./fetchBreedsList";
 
 export default function useBreedList(animal: Animal) {
-  const results = useQuery({
-    queryKey: ["breeds", animal],
-    queryFn: fetchBreedList,
+  const { data: breeds, isLoading } = useGetBreedQuery(animal, {
+    skip: !animal,
   });
 
-  return [results?.data?.breeds ?? [], results.status] as [
-    string[],
-    QueryStatus,
-  ];
+  if (!animal) {
+    return [[], "loading"];
+  }
+
+  return [breeds ?? [], isLoading ? "loading" : "loaded"];
 }

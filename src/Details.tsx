@@ -1,9 +1,9 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { lazy, useContext, useState } from "react";
-import AdoptedPetContext from "./AdoptedPetContext";
+import { lazy, useState, Suspense } from "react";
+import { useDispatch } from "react-redux";
+import { useGetPetQuery } from "./services/petApiService";
+import { adopt } from "./redux/adoptedPetSlice";
 import ErrorBoundary from "./ErrorBoundary";
-import fetchPet from "./fetchPet";
 import Carousel from "./Carousel";
 
 const Modal = lazy(() => import("./Modal"));
@@ -13,24 +13,19 @@ const Details = () => {
   if (!id) {
     throw new Error("no id, Please Give me an ID???");
   }
-  const results = useQuery({
-    queryKey: ["details", id],
-    queryFn: fetchPet,
-  });
+  const { isLoading, data: pet } = useGetPetQuery(id);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_, setAdoptedPet] = useContext(AdoptedPetContext);
 
-  if (results.isLoading) {
+  const dispatch = useDispatch();
+
+  if (isLoading) {
     return (
       <div className="loading-pane">
         <h2 className="loader">🌀</h2>
       </div>
     );
   }
-
-  const pet = results?.data?.pets[0];
 
   if (!pet) {
     throw new Error("pet not found!!");
@@ -50,30 +45,33 @@ const Details = () => {
         </button>
         <p className="px-4 leading-6">{pet.description}</p>
         {showModal ? (
-          <Modal>
-            <div className="rounded bg-white p-8 text-center shadow-lg">
-              <h1 className="mb-4 text-2xl">
-                Would you like to adopt {pet.name}?
-              </h1>
-              <div className="buttons flex justify-center space-x-4">
-                <button
-                  className="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-700"
-                  onClick={() => {
-                    setAdoptedPet(pet);
-                    navigate("/");
-                  }}
-                >
-                  Yes
-                </button>
-                <button
-                  className="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-700"
-                  onClick={() => setShowModal(false)}
-                >
-                  No
-                </button>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Modal>
+              <div className="rounded bg-white p-8 text-center shadow-lg">
+                <h1 className="mb-4 text-2xl">
+                  Would you like to adopt {pet.name}?
+                </h1>
+                <div className="buttons flex justify-center space-x-4">
+                  <button
+                    className="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-700"
+                    onClick={() => {
+                      dispatch(adopt(pet));
+                      // console.log("Adopted pet:", pet);
+                      navigate("/");
+                    }}
+                  >
+                    Yes
+                  </button>
+                  <button
+                    className="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-700"
+                    onClick={() => setShowModal(false)}
+                  >
+                    No
+                  </button>
+                </div>
               </div>
-            </div>
-          </Modal>
+            </Modal>
+          </Suspense>
         ) : null}
       </div>
     </div>
