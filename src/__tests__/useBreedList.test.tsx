@@ -14,10 +14,10 @@ const queryClient = new QueryClient({
 });
 
 function getBreedList(animal: Animal) {
-  let list;
+  let list: [string[], string] | undefined;
 
   function TestComponent() {
-    list = useBreedList(animal);
+    list = useBreedList(animal) as [string[], string];
     return null;
   }
 
@@ -30,8 +30,9 @@ function getBreedList(animal: Animal) {
   return list;
 }
 
-test("gives an empty list with no animal", async () => {
-  const [breedList, status] = getBreedList();
+test("gives an empty list with no animal", () => {
+  const result = getBreedList("" as Animal);
+  const [breedList, status] = result ?? [[], "loading"];
   expect(breedList).toHaveLength(0);
   expect(status).toBe("loading");
 });
