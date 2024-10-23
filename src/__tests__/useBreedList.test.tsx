@@ -46,7 +46,7 @@ test("gives back breeds with an animal", async () => {
     JSON.stringify({
       animal: "dog",
       breeds,
-    })
+    }),
   );
 
   const { result } = renderHook(() => useBreedList("dog"), {
